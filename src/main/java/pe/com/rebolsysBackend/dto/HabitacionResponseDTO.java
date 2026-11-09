@@ -14,4 +14,5 @@ public record HabitacionResponseDTO(
     int capacidadPersonas,
     int plazasCama,
     int maxMenoresSinCama,
-    java.math.BigDecimal precioBase) {}
+    java.math.BigDecimal precioBase,
+    String imagenRuta) {}

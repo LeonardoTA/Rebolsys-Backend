@@ -1,5 +1,39 @@
 # REBOLSYS Backend — propuesta de siete casos de uso
 
+## Entrega de mantenimiento — James Tequen
+
+Este backend de iteración 1 se entrega en su propio repositorio:
+[Rebolsys-Backend](https://github.com/LeonardoTA/Rebolsys-Backend). El frontend se
+mantiene separado en [Rebolsys-Frontend](https://github.com/LeonardoTA/Rebolsys-Frontend).
+En este repositorio, `main` conserva la base del backend y `Dev-Tequen` contiene
+el aporte de CU_21, CU_22 y CU_23 y el soporte de fotografías en archivos de la instancia.
+
+Para el entorno local de esta entrega, ejecutar desde esta carpeta:
+
+```powershell
+.\iniciar-backend.ps1
+```
+
+El script inicia la API en `http://localhost:8085/api/v1` y Swagger en
+`http://localhost:8085/swagger-ui.html`, compatibles con el proxy local del frontend.
+La ejecución directa de Maven documentada más adelante usa el puerto original 8080.
+El script guarda cachés y temporales en `.work` en la unidad del proyecto; comparte
+la carpeta `.work` del paquete local cuando se ejecuta dentro de `Rebolsys Hotelera`.
+
+Oracle debe estar iniciado y la conexión configurada mediante `DB_URL`,
+`DB_USERNAME` y `DB_PASSWORD`, o mediante
+`.local/application-local-private.properties`, que permanece excluido de Git.
+El esquema local autorizado `PropuestaHospedajeRB` ya está preparado en
+`oracle-local`; el script de inicio no crea ni carga esquemas en otras máquinas.
+
+La validación de esta entrega obtuvo **110 pruebas aprobadas y 16 opcionales
+omitidas**, sin fallos ni errores. Las notas de validaciones anteriores que siguen
+son históricas. Ver [detalle del aporte](MANTENIMIENTO-TEQUEN.md) y
+[contrato de imágenes](API-IMAGENES.md). La integración de autenticación y permisos
+por rol se hará con el login del equipo.
+
+## Documentación de la base de iteración 1
+
 Backend con Java 21, Spring Boot, JPA y Oracle, adaptado al DDL propuesto con cliente
 unificado. Mantiene controladores, servicios, implementaciones, repositorios,
 entidades y DTO separados. El frontend no forma parte de esta adaptación.

@@ -40,6 +40,7 @@ application-local-private.*
 .local/
 
 ### Archivos de trabajo y comprobaciones locales ###
+.work/
 /docs/
 /postman/
 /tmp/

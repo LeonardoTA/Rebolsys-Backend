@@ -28,6 +28,7 @@ public class HabitacionServiceImpl implements HabitacionService {
   private final ReglasPropuesta reglas;
   private final DetalleHabitacionRepository mobiliario;
   private final ItemService items;
+  private final ImagenService imagenes;
 
   @Override
   @Transactional
@@ -229,6 +230,7 @@ public class HabitacionServiceImpl implements HabitacionService {
         h.getCapacidadPersonas(),
         h.getPlazasCama(),
         h.getMaxMenoresSinCama(),
-        h.getTipoHabitacion().getPrecioBase());
+        h.getTipoHabitacion().getPrecioBase(),
+        imagenes.ruta("habitaciones", h.getIdHabitacion()));
   }
 }
