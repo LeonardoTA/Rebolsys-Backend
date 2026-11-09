@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8080",
+      "url": "http://127.0.0.1:8085",
       "description": "Generated server url"
     }
   ],
@@ -1687,6 +1687,93 @@
         }
       }
     },
+    "/api/v1/imagenes/{tipo}/{id}": {
+      "post": {
+        "tags": [
+          "Imágenes de mantenimiento"
+        ],
+        "operationId": "subir",
+        "parameters": [
+          {
+            "name": "tipo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "archivo"
+                ],
+                "type": "object",
+                "properties": {
+                  "archivo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImagenRespuesta"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Imágenes de mantenimiento"
+        ],
+        "operationId": "quitar",
+        "parameters": [
+          {
+            "name": "tipo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
     "/api/v1/habitaciones": {
       "get": {
         "tags": [
@@ -2485,6 +2572,46 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PaginaResponseDTOItemResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/imagenes/{tipo}/{id}.png": {
+      "get": {
+        "tags": [
+          "Imágenes de mantenimiento"
+        ],
+        "operationId": "ver",
+        "parameters": [
+          {
+            "name": "tipo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "image/png": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -3749,6 +3876,9 @@
           },
           "precioBase": {
             "type": "number"
+          },
+          "imagenRuta": {
+            "type": "string"
           }
         }
       },
@@ -4416,6 +4546,14 @@
           "observacion": {
             "maxLength": 300,
             "minLength": 0,
+            "type": "string"
+          }
+        }
+      },
+      "ImagenRespuesta": {
+        "type": "object",
+        "properties": {
+          "ruta": {
             "type": "string"
           }
         }

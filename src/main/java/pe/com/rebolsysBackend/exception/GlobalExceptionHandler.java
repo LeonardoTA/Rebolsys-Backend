@@ -25,6 +25,18 @@ public class GlobalExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+    @ExceptionHandler({ImagenInvalidaException.class, org.springframework.web.multipart.support.MissingServletRequestPartException.class})
+    public ResponseEntity<ErrorResponseDTO> handleImageValidation(Exception ex, HttpServletRequest request) {
+        var error = new ErrorResponseDTO(LocalDateTime.now(), 400, "Bad Request", ex.getMessage(), request.getRequestURI(), null);
+        return ResponseEntity.badRequest().body(error);
+    }
+
+    @ExceptionHandler(org.springframework.web.multipart.MaxUploadSizeExceededException.class)
+    public ResponseEntity<ErrorResponseDTO> handleImageSize(Exception ex, HttpServletRequest request) {
+        var error = new ErrorResponseDTO(LocalDateTime.now(), 413, "Payload Too Large", "La imagen no debe superar 5 MB", request.getRequestURI(), null);
+        return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body(error);
+    }
+
     @ExceptionHandler(ServicioExternoException.class)
     public ResponseEntity<ErrorResponseDTO> handleExternalService(
         ServicioExternoException ex,

@@ -31,6 +31,7 @@ public class ProductoServiceImpl implements ProductoService {
   private final MovimientoInventarioRepository movimientos;
   private final Validator validator;
   private final ReglasPropuesta reglas;
+  private final ImagenService imagenes;
 
   @Override
   @Transactional
@@ -146,8 +147,9 @@ public class ProductoServiceImpl implements ProductoService {
         categoriaRepository
             .findById(r.getIdCategoria())
             .orElseThrow(() -> new RecursoNoEncontradoException("La categoría no existe")));
-    p.setImagenRuta(
-        r.getImagenRuta() == null || r.getImagenRuta().isBlank() ? null : r.getImagenRuta().trim());
+    String ruta = r.getImagenRuta() == null ? null : r.getImagenRuta().trim();
+    // Las fotos de instancia se relacionan por id; su ruta no se guarda en Oracle.
+    p.setImagenRuta(ruta == null || ruta.isBlank() || ruta.startsWith("/api/v1/imagenes/productos/") ? null : ruta);
   }
 
   @Override
@@ -211,6 +213,9 @@ public class ProductoServiceImpl implements ProductoService {
   }
 
   private ProductoResponseDTO convertirResponse(Producto p) {
+    String ruta = imagenes.ruta("productos", p.getIdProducto());
+    String anterior = p.getImagenRuta();
+    if (ruta == null && anterior != null && !anterior.startsWith("/api/v1/imagenes/productos/")) ruta = anterior;
     return new ProductoResponseDTO(
         p.getIdProducto(),
         p.getNombreProducto(),
@@ -219,7 +224,7 @@ public class ProductoServiceImpl implements ProductoService {
         p.getStockMinimo(),
         p.getCategoria().getIdCategoria(),
         p.getEstadoProducto(),
-        p.getImagenRuta(),
+        ruta,
         p.getCategoria().getNombreCategoria());
   }
 }

@@ -4,6 +4,10 @@ spring:
       accept-float-as-int: false
   application:
     name: rebolsysBackend
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 6MB
   profiles:
     active: dev
   flyway:
@@ -16,6 +20,8 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
 app:
+  imagenes:
+    directorio: ${REBOLSYS_IMAGENES_DIR:./.local/imagenes}
   cors:
     allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200,http://127.0.0.1:4200}
 
